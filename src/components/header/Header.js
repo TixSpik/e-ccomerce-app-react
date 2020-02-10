@@ -5,7 +5,30 @@ import { ReactComponent as Logo } from '../../assets/crown.svg'
 import { auth } from '../../firebase/firebase.utils'
 
 export default function Header(props) {
-    const { currentUser } = props
+    const { currentUser, loading } = props
+
+    if (loading) {
+        return (
+            <div className='header'>
+                <Link className='logo-container' to='/'>
+                    <Logo className='logo' />
+                </Link>
+                <div className='options'>
+                    <Link className='option' to='/shop'>
+                        SHOP
+                </Link>
+                    <Link className='option' to='/contact'>
+                        CONTACT
+                </Link>
+                    <div
+                        className='option'
+                    >
+                        LOADING...
+                    </div>
+                </div>
+            </div>
+        )
+    }
 
     return (
         <div className='header'>

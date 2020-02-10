@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import './SignIn.scss'
 import FormInput from '../form-input/FormInput'
 import CustomButton from '../custom-button/CustomButton'
-import { signInWithGoogle } from '../../firebase/firebase.utils'
+import { signInWithGoogle, auth } from '../../firebase/firebase.utils'
 import { withRouter } from 'react-router-dom'
 
 class SignIn extends Component {
@@ -26,10 +26,23 @@ class SignIn extends Component {
         this.setState({ [name]: value })
     }
 
-    signInMethod = () => {
+    SignInEmailPassword = async () => {
+        const { email, password } = this.state
+        try {
+            await auth.signInWithEmailAndPassword(email, password)
+                .then(() => {
+                    this.setState({ email: '', password: '' })
+                    this.props.history.push('/')
+                })
+                .catch((error) => console.log(error))
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    signInMethodGoogle = () => {
         signInWithGoogle()
-            .then((user) => {
-                console.log(user)
+            .then(() => {
                 this.props.history.push('/')
             }).catch((error) => {
                 console.log(error)
@@ -61,10 +74,10 @@ class SignIn extends Component {
                         required
                     />
                     <div className='buttons'>
-                        <CustomButton type='submit'>
+                        <CustomButton type='submit' onClick={this.SignInEmailPassword}>
                             SIGN IN
                         </CustomButton>
-                        <CustomButton isGoogleSignIn onClick={this.signInMethod} >
+                        <CustomButton isGoogleSignIn onClick={this.signInMethodGoogle} >
                             SIGN IN WITH GOOGLE
                         </CustomButton>
                     </div>
