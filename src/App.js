@@ -7,6 +7,7 @@ import SignInAndSignUp from './pages/sign-in-and-sign-up/SignInAndSignUp';
 import { auth, createUserProfileDoc } from './firebase/firebase.utils';
 import { setCurrenrUser } from './redux/user/userAction'
 import { connect } from 'react-redux';
+import { toogleCartHidden } from './redux/cart/cartAction';
 
 class App extends React.Component {
 
@@ -37,9 +38,17 @@ class App extends React.Component {
     this.unsubscribeFromAuth()
   }
 
+  closeCartOutOfDiv(e) {
+    const { hidden, toogleCartHidden } = this.props
+    let isHide = e.target.id
+
+    if (isHide === 'divclick' && hidden === false) {
+      toogleCartHidden(true)
+    }
+  }
   render() {
     return (
-      <div >
+      <div id='divclick' onClick={(e) => this.closeCartOutOfDiv(e)}>
         <Header />
         <Switch>
           <Route exact path='/' component={Home} />
@@ -50,10 +59,12 @@ class App extends React.Component {
     );
   }
 }
-const mapStateToProps = ({ user }) => ({
-  currentUser: user.currentUser
+const mapStateToProps = ({ user, cart }) => ({
+  currentUser: user.currentUser,
+  hidden: cart.hidden
 })
 const mapDispatchToProps = dispatch => ({
-  setCurrenrUser: user => dispatch(setCurrenrUser(user))
+  setCurrenrUser: user => dispatch(setCurrenrUser(user)),
+  toogleCartHidden: () => dispatch(toogleCartHidden())
 })
 export default connect(mapStateToProps, mapDispatchToProps)(App);
