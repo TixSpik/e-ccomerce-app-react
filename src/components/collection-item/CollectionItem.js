@@ -17,7 +17,7 @@ function CollectionItem(props) {
             />
             <div className='collection-footer'>
                 <span className='name'>{name}</span>
-                <span className='price'>{price}</span>
+                <span className='price'>${price}</span>
             </div>
             <CustomButton inverted onClick={() => addItem(item)}>
                 ADD TO CART
