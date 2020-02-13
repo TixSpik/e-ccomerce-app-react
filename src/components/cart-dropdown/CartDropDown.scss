@@ -29,11 +29,17 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #555; 
 }
-
+  .empty-message {
+    font-size: 18px;
+    text-align: center;
+    margin: 50px auto;    
+  }
   .cart-items {
     height: 240px;
     display: flex;
-    flex-direction: column;
+    flex-direction: column;    
+  }
+  .cart-items-overflow{
     overflow: scroll;
   }
 
