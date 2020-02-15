@@ -59,11 +59,19 @@ class App extends React.Component {
           <Route path='/shop' component={Shop} />
           <Route exact path='/checkout' component={CheckOut} />
           <Route exact path='/signin' render={() => this.props.currentUser ? (<Redirect to='/' />) : (<SignInAndSignUp />)} />
+          <Route component={PageNotFoud} />
         </Switch>
       </div>
     );
   }
 }
+
+const PageNotFoud = () => (
+  <h2 style={{ textAlign: "center" }}>
+    PAGE NOT FOUND
+  </h2>
+)
+
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
   hidden: selectCartHidden

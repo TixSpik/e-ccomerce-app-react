@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import './Header.scss'
-import { ReactComponent as Logo } from '../../assets/crown.svg'
+import Logo from '../../assets/logo.png'
 import { auth } from '../../firebase/firebase.utils'
 import { connect } from 'react-redux'
 import CartIcon from '../cart-icon/CartIcon'
@@ -16,7 +16,7 @@ function Header(props) {
     return (
         <div className='header'>
             <Link className='logo-container' to='/'>
-                <Logo className='logo' />
+                <img style={{ width: 60 }} src={Logo} className='logo' alt='logo' />
             </Link>
             <div className='options'>
                 <Link className='option' to='/shop'>
