@@ -32,9 +32,8 @@ class App extends React.Component {
           })
 
         })
-      } else {
-        setCurrenrUser(userAuth)
       }
+      setCurrenrUser(userAuth)
     })
   }
 
