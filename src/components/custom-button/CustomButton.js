@@ -1,5 +1,5 @@
 import React from 'react'
-import './CustomButton.scss'
+import './CustomButtonStyles.scss'
 
 export default function CustomButton(props) {
     const { children, isGoogleSignIn, inverted, ...otherProps } = props

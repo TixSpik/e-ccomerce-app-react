@@ -5,36 +5,20 @@ import Shop from './pages/shop/Shop';
 import Header from './components/header/Header';
 import SignInAndSignUp from './pages/sign-in-and-sign-up/SignInAndSignUp';
 import CheckOut from './pages/checkout/CheckOut';
-import { auth, createUserProfileDoc } from './firebase/firebase.utils';
-import { setCurrenrUser } from './redux/user/userAction'
 import { connect } from 'react-redux';
 import { toogleCartHidden } from './redux/cart/cartAction';
 import { selectCurrentUser } from './redux/user/userSelectors';
 import { createStructuredSelector } from 'reselect'
 import { selectCartHidden } from './redux/cart/cartSelectors';
+import { checkUserSession } from './redux/user/userAction';
 
 class App extends React.Component {
 
   unsubscribeFromAuth = null
 
   componentDidMount() {
-    const { setCurrenrUser } = this.props
-
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-      if (userAuth) {
-
-        const userRef = await createUserProfileDoc(userAuth)
-
-        userRef.onSnapshot(snapShot => {
-          setCurrenrUser({
-            id: snapShot.id,
-            ...snapShot.data()
-          })
-
-        })
-      }
-      setCurrenrUser(userAuth)
-    })
+    const { checkUserSession } = this.props
+    checkUserSession()
   }
 
   componentWillUnmount() {
@@ -77,7 +61,8 @@ const mapStateToProps = createStructuredSelector({
 })
 
 const mapDispatchToProps = dispatch => ({
-  setCurrenrUser: user => dispatch(setCurrenrUser(user)),
-  toogleCartHidden: () => dispatch(toogleCartHidden())
+  toogleCartHidden: () => dispatch(toogleCartHidden()),
+  checkUserSession: () => dispatch(checkUserSession())
 })
+
 export default connect(mapStateToProps, mapDispatchToProps)(App);
