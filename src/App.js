@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Home from './pages/home/Home';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Shop from './pages/shop/Shop';
@@ -12,43 +12,33 @@ import { createStructuredSelector } from 'reselect'
 import { selectCartHidden } from './redux/cart/cartSelectors';
 import { checkUserSession } from './redux/user/userAction';
 
-class App extends React.Component {
+const App = ({ checkUserSession, currentUser, hidden, toogleCartHidden }) => {
 
-  unsubscribeFromAuth = null
-
-  componentDidMount() {
-    const { checkUserSession } = this.props
+  useEffect(() => {
     checkUserSession()
-  }
+  }, [checkUserSession])
 
-  componentWillUnmount() {
-    this.unsubscribeFromAuth()
-  }
-
-  closeCartOutOfDiv(e) {
-    const { hidden, toogleCartHidden } = this.props
+  const closeCartOutOfDiv = (e) => {
     let isHide = e.target.id
 
     if (isHide === 'divclick' && hidden === false) {
       toogleCartHidden(true)
     }
   }
-  render() {
-    return (
-      <div id='divclick' onClick={(e) => this.closeCartOutOfDiv(e)}>
-        <Header />
-        <Switch>
-          <Route exact path='/' component={Home} />
-          <Route path='/shop' component={Shop} />
-          <Route exact path='/checkout' component={CheckOut} />
-          <Route exact path='/signin' render={() => this.props.currentUser ? (<Redirect to='/' />) : (<SignInAndSignUp />)} />
-          <Route component={PageNotFoud} />
-        </Switch>
-      </div>
-    );
-  }
-}
 
+  return (
+    <div id='divclick' onClick={(e) => closeCartOutOfDiv(e)}>
+      <Header />
+      <Switch>
+        <Route exact path='/' component={Home} />
+        <Route path='/shop' component={Shop} />
+        <Route exact path='/checkout' component={CheckOut} />
+        <Route exact path='/signin' render={() => currentUser ? (<Redirect to='/' />) : (<SignInAndSignUp />)} />
+        <Route component={PageNotFoud} />
+      </Switch>
+    </div>
+  );
+}
 const PageNotFoud = () => (
   <h2 style={{ textAlign: "center" }}>
     PAGE NOT FOUND
